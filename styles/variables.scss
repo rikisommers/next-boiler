@@ -1,0 +1,55 @@
+
+$bp-lg:960px;
+$header-height:80px;
+$primary:blue;
+$text:#333;
+$text-light:#999;
+$h-space:150px;
+
+$phone-max:480px;
+$tablet-p-max:768px;
+$tablet-l-max:1024px;
+$desktop-min:1224px;
+$desktop-max:1600px;
+
+$header-height:120px;
+
+*{
+  box-sizing: border-box;
+}
+
+
+$primary1:#DDEB9D!important;
+$primary2:#A7D694!important;
+$primary3:#6DB49B!important;
+$primary4:#4088A9!important;
+$primary5:#284E74!important;
+
+
+$mid-blue:#4E7D96;
+$light-blue:#9FC9DD;
+$bg:#F1EFE2;
+$action:#FF844B;
+$dark-blue:#0A0D80;
+$body:#444;
+$fsbody:15px;
+
+// @import "@fontsource/roboto-slab";
+// @import "@fontsource/rubik";
+
+@font-face {font-family: "Roobert-Regular";
+  src: url("./fonts/6228016f2b172c06410f3a2356d33f6c.eot"); /* IE9*/
+  src: url("./fonts/6228016f2b172c06410f3a2356d33f6c.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+  url("./fonts/6228016f2b172c06410f3a2356d33f6c.woff2") format("woff2"), /* chrome、firefox */
+  url("./fonts/6228016f2b172c06410f3a2356d33f6c.woff") format("woff"), /* chrome、firefox */
+  url("./fonts/6228016f2b172c06410f3a2356d33f6c.ttf") format("truetype"), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+  url("./fonts/6228016f2b172c06410f3a2356d33f6c.svg#Roobert-Regular") format("svg"); /* iOS 4.1- */
+}
+
+
+
+$font-family-body: sans-serif;
+$font-family-heading: "Roobert-Regular", sans-serif;
+
+
+$font-size-xs:12px;

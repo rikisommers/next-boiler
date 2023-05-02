@@ -1,7 +1,5 @@
 //npx cross-env CONTENTFUL_SPACE_ID=4v0tb3n9jpvc CONTENTFUL_MANAGEMENT_TOKEN=CFPAT-wwsdnZLZwdYpl8egGCKcVNoBv_InezP3krIyJUJACTc npm run setup
 //CFPAT-wwsdnZLZwdYpl8egGCKcVNoBv_InezP3krIyJUJACTc
-import React, { useState, useEffect, useCallback} from "react";
-
 import Container from '../components/container'
 import MoreStories from '../components/more-stories'
 import HeroPost from '../components/hero-post'
@@ -14,15 +12,12 @@ import { CMS_NAME } from '../lib/constants'
 import { AnimatePresence } from 'framer-motion'
 import CaseStudyPreview from '../components/case-study-preview'
 import CustomCursor from '../components/cursor'
-import Reel from '../components/reel'
 
 export default function Index({ preview, home, caseStudies, allCaseStudies}) {
 
   console.log('all',allCaseStudies)
   console.log('cs',caseStudies)
   console.log('home',home)
-
-  const [showModal, setShowModal] = useState(true);
 
 
   const variants = {
@@ -34,16 +29,14 @@ export default function Index({ preview, home, caseStudies, allCaseStudies}) {
   return (
 
       <Layout>
-      {/* <CustomCursor /> */}
+      <CustomCursor />
 
         <Head>
           <title>{`Next.js Blog Example with ${CMS_NAME}`}</title>
         </Head>
 
-{/* 
-        <Reel show={showModal} title={home.title} content={home.intro}/>
-             */}
-        {/* <header className="o-page-header">
+            
+        <header className="o-page-header">
 
             <div className="o-content o-content-grid">
             <div className="title">
@@ -57,15 +50,14 @@ export default function Index({ preview, home, caseStudies, allCaseStudies}) {
             </div>
             </div>
         
-        </header>  */}
+        </header> 
 
-
+        
         <Container>
 
         {allCaseStudies.length > 0 && 
           <MoreCaseStudies posts={allCaseStudies} />
         }
-
         </Container>
       </Layout>
   )

@@ -2,7 +2,7 @@ import ContentfulImage from './contentful-image'
 import Link from 'next/link'
 import cn from 'classnames'
 
-export default function CoverImage({ title, url, slug, layout }) {
+export default function HomePreviewImage({ title, url, slug, layout }) {
   const image = (
 
 
@@ -24,7 +24,7 @@ export default function CoverImage({ title, url, slug, layout }) {
 
 
   return (
-    <div className={`c-image--${layout}`}>
+    <div className={`c-project-list__preview-image`}>
     {
         image
     } 

@@ -1,7 +1,10 @@
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
-import { BLOCKS } from '@contentful/rich-text-types'
-import markdownStyles from './markdown-styles.module.css'
-import RichTextAsset from './rich-text-asset'
+import { BLOCKS } from "@contentful/rich-text-types";
+import RichTextAsset from "./rich-text-asset";
+import BlockArticle from "./block-article";
+import BlockQuote from "./block-quote";
+import BlockImg from "./block-img";
+import { BlockEmbed } from "./block-embed";
+import BlockImages from "./blockImages";
 
 const customMarkdownOptions = (content) => ({
   renderNode: {
@@ -12,17 +15,48 @@ const customMarkdownOptions = (content) => ({
       />
     ),
   },
-})
+});
 
 export default function PostBody({ content }) {
   return (
     <div className="max-w-2xl mx-auto">
-      <div className={markdownStyles['markdown']}>
-        {documentToReactComponents(
-          content.json,
-          customMarkdownOptions(content)
-        )}
+      <div>
+        {content.items &&
+          content.items.length > 0 &&
+          content.items.map((item) => {
+            return (
+              <section>
+                {item.__typename === "BlockArticle" && (
+                  <BlockArticle key={item.id} article={item} ></BlockArticle>
+                )}
+
+                {item.__typename === "BlockImage" && (
+                  <BlockImg key={item.id} data={item} />
+                )}
+
+                {item.__typename === "BlockIg" && (
+                  <BlockImages key={item.id} data={item} />
+                )}
+
+
+                {item.__typename === "BlockQuote" && (
+                  <BlockQuote key={item.id} data={item} />
+                )}
+
+                {item.__typename === "BlockEmbed" && (
+                  <BlockEmbed key={item.id} data={item} />
+                )}
+
+                
+
+              </section>
+
+                // {/* {item.__typename === "BlockEmbed" && (
+                //   <h1>Add component for EMBED</h1>
+                // )} */}
+            );
+          })}
       </div>
     </div>
-  )
+  );
 }

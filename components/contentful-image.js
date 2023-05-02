@@ -5,7 +5,16 @@ const contentfulLoader = ({ src, width, quality }) => {
 }
 
 const ContentfulImage = (props) => {
-  return <Image loader={contentfulLoader} {...props} />
+  return <Image     
+    priority
+
+      sizes="(max-width: 768px) 100vw,
+              (max-width: 1200px) 50vw,
+              33vw" 
+   loader={contentfulLoader} {...props} 
+   width={1920}
+   height={1080}
+   />
 }
 
 export default ContentfulImage

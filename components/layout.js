@@ -1,16 +1,12 @@
 import Alert from '../components/alert'
 import Footer from '../components/footer'
 import Meta from '../components/meta'
-
-export default function Layout({ preview, children }) {
+import { motion } from "framer-motion";
+export default function Layout({ children }) {
   return (
     <>
       <Meta />
-      <div className="min-h-screen">
-        <Alert preview={preview} />
-        <main>{children}</main>
-      </div>
-      <Footer />
+      <main>{children}</main>
     </>
   )
 }
