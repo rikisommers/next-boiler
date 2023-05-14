@@ -1,3 +1,68 @@
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useViewportScroll, useSpring, motion } from "framer-motion";
+
+export default function Index() {
+  const scrollRef = useRef(null);
+  const itemRefs = useRef([]);
+
+  let numItems = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  const { scrollY, velocity } = useViewportScroll();
+  const [springY, setSpringY] = useSpring();
+
+  useEffect(() => {
+    const height = getClonesHeight();
+    setSpringY({ y: -height });
+  }, []);
+
+  const getScrollPos = () => scrollRef.current?.scrollTop || 0;
+
+  const setScrollPos = (pos) => (scrollRef.current.scrollTop = pos);
+
+  const getClonesHeight = () =>
+    itemRefs.current.reduce((height, clone) => height + clone.offsetHeight, 0);
+
+  const handleScroll = useCallback(
+    (event) => {
+      event.preventDefault();
+      setScrollPos(springY.get());
+      setSpringY({
+        y: -getClonesHeight(),
+        velocity: -velocity / 1000,
+        damping: 30,
+        mass: 1,
+        stiffness: 100,
+      });
+    },
+    [springY, setSpringY, velocity]
+  );
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.addEventListener("wheel", handleScroll, {
+        passive: false,
+      });
+      return () => {
+        scrollRef.current.removeEventListener("wheel", handleScroll);
+      };
+    }
+  }, [handleScroll, scrollRef]);
+
+  const renderContent = (items, customClass) => {
+    return items.map((i, index) => {
+      return (
+        <div
+          key={i}
+          className={`scroll-item ${customClass}`}
+          ref={(el) => (itemRefs.current[i] = el)}
+        >
+          <h3>{i}</h3>
+        </div>
+      );
+    });
+  };
+
+
 //npx cross-env CONTENTFUL_SPACE_ID=4v0tb3n9jpvc CONTENTFUL_MANAGEMENT_TOKEN=CFPAT-wwsdnZLZwdYpl8egGCKcVNoBv_InezP3krIyJUJACTc npm run setup
 //CFPAT-wwsdnZLZwdYpl8egGCKcVNoBv_InezP3krIyJUJACTc
 import React, {
@@ -7,7 +72,6 @@ import React, {
   useRef,
   useLayoutEffect,
 } from "react";
-import gsap from "gsap";
 
 import Layout from "../components/layout";
 import Head from "next/head";
@@ -15,11 +79,10 @@ import { CMS_NAME } from "../lib/constants";
 import { AnimatePresence } from "framer-motion";
 import SmoothScroll from "../components/smoothScroll";
 import {
-  useScroll,
+  useViewportScroll,
   useTransform,
   useSpring,
   motion,
-  cubicBezier,
 } from "framer-motion";
 
 export default function Index() {
@@ -35,8 +98,6 @@ export default function Index() {
   let numItems = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
   function getScrollPos() {
-    console.log(scrollRef.current?.scrollTop <= 500 ? "true" : "false");
-
     //console.log("mst", menu.current.getBoundingClientRect().top);
     return scrollRef.current?.scrollTop;
     //const scroll = scrollRef.current.scrollTop;
@@ -76,53 +137,6 @@ export default function Index() {
     }
   }
 
-  // const { scrollYProgress } = useScroll({ container: scrollRef });
-
-  // function getScroll() {
-  //   const scrollHeight = getClonesHeight();
-  //   let scaleX = useSpring(scrollYProgress, {
-  //     stiffness: 100,
-  //     damping: 30,
-  //     restDelta: 0.001,
-  //   });
-
-  //   if (scrollPos >= scrollHeight) {
-  //     console.log("reseting");
-
-  //     scaleX = 1;
-  //   }
-  //   console.log("scalex", scaleX);
-  //   return scaleX;
-  // }
-
-  // const { scrollY } = useScroll({ container: scrollRef }); // measures how many pixels user has scrolled vertically
-  // // as scrollY changes between 0px and the scrollable height, create a negative scroll value...
-  // // ... based on current scroll position to translateY the document in a natural way
-  // const transform = useTransform(
-  //   scrollY,
-  //   [0, clonesHeight],
-  //   [0, -clonesHeight]
-  // );
-  // const physics = { damping: 15, mass: 0.27, stiffness: 55 }; // easing of smooth scroll
-  // const spring = useSpring(transform, physics); // apply easing to the negative scroll value
-  const scrollPos1 = getScrollPos();
-  const scrollHeight = getClonesHeight();
-    // const transform = useTransform(scrollYProgress, [0, 100], [0, 10], {
-  //   ease: cubicBezier(0.17, 0.67, 0.83, 0.67),
-  // });
-
-
-
-  const { scrollYProgress } = useScroll({ container: scrollRef });
-  const [isEasingEnabled, setEasingEnabled] = useState(true);
-  const transform = useTransform(scrollYProgress, [0, 100], [0, 30], {
-  });
-  
-  const physics = { damping: 15, mass: 0.27, stiffness: 55 }; // easing of smooth scroll
-  const spring = useSpring(transform, physics); // apply easing to the negative scroll value
-
-  const scaleX = spring;
-
   function scrollUpdate() {
     //    console.log("scroll", disableScroll);
 
@@ -131,11 +145,6 @@ export default function Index() {
     // } else {
     //   console.log("wheel");
     // }
-    console.log("sp", getScrollPos());
-    console.log("sh", getClonesHeight());
-
-    //     console.log("sh", getClonesHeight());
-    console.log("s-------------------------y", isEasingEnabled);
 
     if (!disableScroll) {
       scrollPos = getScrollPos();
@@ -145,13 +154,11 @@ export default function Index() {
         console.log("fff");
 
         disableScroll = true;
-        setEasingEnabled(false);
       } else if (scrollPos <= 0) {
         console.log("ccc");
 
         setScrollPos(scrollHeight);
         disableScroll = true;
-        setEasingEnabled(false);
       }
     }
     if (disableScroll) {
@@ -173,7 +180,7 @@ export default function Index() {
         scrollRef.current.removeEventListener("scroll", handleScroll);
       }
     };
-  }, [scrollRef, scrollUpdate]);
+  }, [scrollRef]);
 
   function reCalc() {
     scrollPos = getScrollPos();
@@ -205,17 +212,9 @@ export default function Index() {
       </Head>
 
       <>
-        <motion.div className="progress-bar" style={{ scaleX }} />
-
-        {/* <div className="postop">VAL:{scrollYProgress}</div> */}
         <div className="infinite-scroll-container" ref={scrollRef}>
-          <div
-            className="scroll-wrapper"
-            //style={{ y: scrollPos }} // translateY of scroll container using negative scroll value
-          >
-            {renderContent(numItems)}
-            {renderContent(numItems, "clone")}
-          </div>
+          {renderContent(numItems)}
+          {renderContent(numItems, "clone")}
         </div>
       </>
       {/* <SmoothScroll>

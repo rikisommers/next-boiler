@@ -1,6 +1,4 @@
-import Alert from '../components/alert'
-import Footer from '../components/footer'
-import Meta from '../components/meta'
+import Meta from "../components/meta";
 import { motion } from "framer-motion";
 export default function Layout({ children }) {
   return (
@@ -8,5 +6,5 @@ export default function Layout({ children }) {
       <Meta />
       <main>{children}</main>
     </>
-  )
+  );
 }

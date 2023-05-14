@@ -1,72 +1,96 @@
+@use "variables" as *;
+@use "type";
+@use "objects";
+@use "components/header";
+@use "components/img";
+@use "components/modal";
+@use "components/cursor";
+@use "components/reel";
+@use "components/project-list";
+@use "components/scroll";
+@use "utils";
 
-@use 'variables' as *;
-@use 'type';
-@use 'objects';
-@use 'components/header';
-@use 'components/img';
-@use 'components/modal';
-@use 'components/cursor';
-@use 'components/reel';
-@use 'components/project-list';
-@use 'components/scroll';
-@use 'utils';
-
-  
-
-
-body{
-    font-family: $font-family-body;
-    font-size:16px;
-    color:$text;
-    margin:0;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-.postImage{
-    padding-bottom:55%;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    background:red;
+body {
+  font-family: $font-family-body;
+  font-size: 12px;
+  background-color: #333;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
-
-.postop{
-    position:fixed;
-    top:0;
-    right:0;
-    padding:10px;
-    background:red;
+.header {
+  height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
 }
 
-.header{
-    height: 90px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position:absolute;
+.layout {
+  padding-top: 90px;
 }
 
-.layout{
-    padding-top:90px;
+.infinite-scroll-container {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  overflow: auto;
+  --webkit-overflow-scrolling: touch;
+  background-color: red;
 }
 
-.test{
-
-    overflow: hidden;
+.scroll-wrapper {
+  border: 10px solid red;
 }
+// .scroll-container {
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   overflow: hidden;
+//   will-change: transform;
+// }
 
-.link{
-    text-decoration: none;
-    color:unse;
-}
+.scroll-item {
+  position: relative;
+  height: 20vh;
+  padding: 0 80px;
 
-  .contenttest{
-    border:1px solid red;
+  background-color: blue;
+
+  &.clone {
+    background-color: hotpink;
   }
+}
 
-  .fuck{
-    width:800px;
+.scroll-item-inner {
+  font-size: 30px;
+  color: #fff;
+  text-decoration: none;
+}
 
-    background-color: azure;
-    transform-origin: center center;
-    
-  }
+.postop {
+  position: fixed;
+  top: 100px;
+  left: 100px;
+  z-index: 999;
+  font-size: 30px;
+}
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: green;
+  z-index: 9999;
+  transform-origin: 0%;
+}
