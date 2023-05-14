@@ -34,6 +34,7 @@ export default function Index() {
 
   let numItems = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
+
   function getScrollPos() {
     console.log(scrollRef.current?.scrollTop <= 500 ? "true" : "false");
 
@@ -56,7 +57,7 @@ export default function Index() {
     //return newRect;
     scrollRef.current.scrollTop = pos;
 
-    // return (menu.current.getBoundingClientRect().top = pos);
+    return (scrollRef.current.scrollTop = pos);
   }
 
   function getClonesHeight() {
@@ -76,82 +77,20 @@ export default function Index() {
     }
   }
 
-  // const { scrollYProgress } = useScroll({ container: scrollRef });
-
-  // function getScroll() {
-  //   const scrollHeight = getClonesHeight();
-  //   let scaleX = useSpring(scrollYProgress, {
-  //     stiffness: 100,
-  //     damping: 30,
-  //     restDelta: 0.001,
-  //   });
-
-  //   if (scrollPos >= scrollHeight) {
-  //     console.log("reseting");
-
-  //     scaleX = 1;
-  //   }
-  //   console.log("scalex", scaleX);
-  //   return scaleX;
-  // }
-
-  // const { scrollY } = useScroll({ container: scrollRef }); // measures how many pixels user has scrolled vertically
-  // // as scrollY changes between 0px and the scrollable height, create a negative scroll value...
-  // // ... based on current scroll position to translateY the document in a natural way
-  // const transform = useTransform(
-  //   scrollY,
-  //   [0, clonesHeight],
-  //   [0, -clonesHeight]
-  // );
-  // const physics = { damping: 15, mass: 0.27, stiffness: 55 }; // easing of smooth scroll
-  // const spring = useSpring(transform, physics); // apply easing to the negative scroll value
   const scrollPos1 = getScrollPos();
   const scrollHeight = getClonesHeight();
-    // const transform = useTransform(scrollYProgress, [0, 100], [0, 10], {
-  //   ease: cubicBezier(0.17, 0.67, 0.83, 0.67),
-  // });
-
-
-
-  const { scrollYProgress } = useScroll({ container: scrollRef });
-  const [isEasingEnabled, setEasingEnabled] = useState(true);
-  const transform = useTransform(scrollYProgress, [0, 100], [0, 30], {
-  });
-  
-  const physics = { damping: 15, mass: 0.27, stiffness: 55 }; // easing of smooth scroll
-  const spring = useSpring(transform, physics); // apply easing to the negative scroll value
-
-  const scaleX = spring;
 
   function scrollUpdate() {
-    //    console.log("scroll", disableScroll);
-
-    // if (event.target === menu.current && event.deltaY === 0) {
-    //   console.log("native");
-    // } else {
-    //   console.log("wheel");
-    // }
-    console.log("sp", getScrollPos());
-    console.log("sh", getClonesHeight());
-
-    //     console.log("sh", getClonesHeight());
-    console.log("s-------------------------y", isEasingEnabled);
-
     if (!disableScroll) {
       scrollPos = getScrollPos();
       const scrollHeight = getClonesHeight();
       if (scrollPos >= scrollHeight) {
         setScrollPos(1);
-        console.log("fff");
 
         disableScroll = true;
-        setEasingEnabled(false);
       } else if (scrollPos <= 0) {
-        console.log("ccc");
-
         setScrollPos(scrollHeight);
         disableScroll = true;
-        setEasingEnabled(false);
       }
     }
     if (disableScroll) {
@@ -205,9 +144,10 @@ export default function Index() {
       </Head>
 
       <>
-        <motion.div className="progress-bar" style={{ scaleX }} />
+        <div className="postop">
+          VAL:{getClonesHeight()}VAL:{scrollPos}
+        </div>
 
-        {/* <div className="postop">VAL:{scrollYProgress}</div> */}
         <div className="infinite-scroll-container" ref={scrollRef}>
           <div
             className="scroll-wrapper"
