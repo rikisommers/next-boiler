@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 
 const CustomCursor = () => {
+
+    
   const [position, setPosition] = useState(() => {
     const storedPosition = JSON.parse(localStorage.getItem('cursorPosition'));
     return storedPosition || { x: 0, y: 0 };
   });
+  
   const [touchDevice, setTouchDevice] = useState(false);
   const [mouseClicked, setMouseClicked] = useState(false);
 
